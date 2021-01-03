@@ -1,9 +1,11 @@
 package com.vv.personal.pdf.tts.config;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -20,13 +22,13 @@ public class TtsConfig {
     @Value("${tts.url:https://texttospeech.responsivevoice.org/v1/text:synthesize}")
     public String url;
 
-    @Value("${tts.key}")
+    @Value("${tts.key:}")
     public String key;
 
     @Value("${tts.gender:female}")
     public String gender;
 
-    @Value("${tts.lng:en}")
+    @Value("${tts.lng:hi}")
     public String language;
 
     @Value("${tts.engine:g3}")
@@ -66,5 +68,11 @@ public class TtsConfig {
     @Bean
     public Runtime runtime() {
         return Runtime.getRuntime();
+    }
+
+    @Bean(initMethod = "start")
+    @Scope("prototype")
+    public StopWatch stopWatch() {
+        return new StopWatch();
     }
 }

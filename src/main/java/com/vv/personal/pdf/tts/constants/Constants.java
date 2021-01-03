@@ -5,9 +5,23 @@ package com.vv.personal.pdf.tts.constants;
  * @since 27/12/20
  */
 public class Constants {
+    public static final String EMPTY_STR = "";
+    public static final String SPACE_STR = " ";
+
+    public static final String SPACE_PERCENT_20 = "%20";
 
     public static final String AUDIO_EXTENSION = ".mp3";
 
-    public static final String PLAY_AUDIO_CLIP_MPV_CMD = "mpv %s";
+    //FORMATTER
+    public static final String PLAY_AUDIO_CLIP_MPV_CMD_FORMAT = "mpv %s";
 
+    public static final String REQ_PARAM_TTS_KEY = "key";
+    public static final String REQ_PARAM_TTS_ENGINE = "engine";
+    public static final String REQ_PARAM_TTS_PITCH = "pitch";
+    public static final String REQ_PARAM_TTS_RATE = "rate";
+    public static final String REQ_PARAM_TTS_VOLUME = "volume";
+    public static final String REQ_PARAM_TTS_LANG = "lang";
+    public static final String REQ_PARAM_TTS_GENDER = "gender";
+    public static final String REQ_PARAM_TTS_TEXT = "text";
+    public static final String PREFIX_DOWNLOADED_SPEECH_LINE_PARTS = "%s-%d-";
 }
