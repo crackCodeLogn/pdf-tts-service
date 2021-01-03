@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.vv.personal</groupId>
-    <artifactId>pdf-tts</artifactId>
+    <artifactId>pdf-tts-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Pdf text to speech</name>
     <description>Convert pdf to speech via online speech converter</description>

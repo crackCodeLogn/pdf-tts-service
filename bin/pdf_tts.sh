@@ -1,4 +1,4 @@
-APP_NAME="pdf-tts"
+APP_NAME="pdf-tts-service"
 APP_VERSION="0.0.1-SNAPSHOT"
 JAVA_PARAM="-Xmx1g"
 
