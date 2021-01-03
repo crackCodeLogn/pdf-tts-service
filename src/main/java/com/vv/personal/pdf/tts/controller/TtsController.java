@@ -228,7 +228,7 @@ public class TtsController {
     private String getSplitRegex(String lng) {
         switch (lng) {
             case "en":
-                return "\\. ";
+                return "\\.";
             case "hi":
                 return "\\।";
         }
