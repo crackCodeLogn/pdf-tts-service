@@ -102,7 +102,7 @@ public class TtsController {
         File pdf = new File(pdfFileLocation);
         String endingSplit = getSplitRegex(lng);
         try (PDDocument doc = PDDocument.load(pdf)) {
-            LOGGER.info("PDF loaded in program, decoding in progress.");
+            LOGGER.info("PDF loaded in program, decoding in progress, total pages: {}", doc.getNumberOfPages());
             List<String> lines = Arrays.stream(new PDFTextStripper().getText(doc)
                     .split(endingSplit)) //"\\r?\\n"
                     .map(this::cleanLine)
@@ -120,6 +120,7 @@ public class TtsController {
     @GetMapping("/automate/pdf/text/speech")
     public Boolean automatePdfTextToSpeech(@RequestParam String pdfFileLocation,
                                            @RequestParam(defaultValue = "en") String lng,
+                                           @RequestParam(defaultValue = "true") Boolean convertAll,
                                            @RequestParam(defaultValue = "0") Integer startLineIndex,
                                            @RequestParam(defaultValue = "10") Integer endLineIndexButNotIncluded,
                                            @RequestParam(defaultValue = "true") Boolean playAudioOnTheFly,
@@ -128,7 +129,8 @@ public class TtsController {
         File file = new File(pdfFileLocation);
         String prefixForDownloadedSpeech = reduceStringToOnlyCharacters(file.getName());
         List<String> pdfLines = extractTextFromPdf(pdfFileLocation, lng);
-        int lastLine = pdfLines.size() > endLineIndexButNotIncluded ? endLineIndexButNotIncluded : pdfLines.size();
+        int lastLine = convertAll ? pdfLines.size() :
+                (pdfLines.size() > endLineIndexButNotIncluded ? endLineIndexButNotIncluded : pdfLines.size());
         LOGGER.info("Will perform automated text to speech for pdf at '{}' until {}th line.", pdfFileLocation, lastLine);
         boolean allDone = true;
         for (int i = startLineIndex; i < lastLine; i++) {
