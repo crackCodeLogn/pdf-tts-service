@@ -24,4 +24,9 @@ public class Constants {
     public static final String REQ_PARAM_TTS_GENDER = "gender";
     public static final String REQ_PARAM_TTS_TEXT = "text";
     public static final String PREFIX_DOWNLOADED_SPEECH_LINE_PARTS = "%s-%d-";
+
+    public static final String LOCALHOST = "localhost";
+    public static final String SWAGGER_UI_URL = "http://%s:%s/swagger-ui/index.html";
+    public static final String LOCAL_SPRING_HOST = "local.server.host";
+    public static final String LOCAL_SPRING_PORT = "local.server.port";
 }

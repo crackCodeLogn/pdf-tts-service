@@ -1,1 +1,6 @@
+spring:
+  application:
+    name: pdf-tts-service
 
+server:
+  port: ${EUREKA_REGISTRATION_PORT:0}
