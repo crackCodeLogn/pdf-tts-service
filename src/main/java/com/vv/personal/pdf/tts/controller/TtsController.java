@@ -238,19 +238,19 @@ public class TtsController {
     private String cleanLine(String line) {
         return line.trim()
                 .replaceAll("\n", " ") //below for hindi
-                .replaceAll("ि", "")
-                .replaceAll("ं", "")
-                .replaceAll("ु", "")
-                .replaceAll("ू", "")
-                .replaceAll("ा", "")
-                .replaceAll("\uE771", "")
-                .replaceAll("\uE772", "")
-                .replaceAll("\uE779", "")
-                .replaceAll("\uE8C0", "")
-                .replaceAll("\uE8C4", "")
-                .replaceAll("\uE8CC", "")
-                .replaceAll("\uE8D8", "")
-                .replaceAll("\uE988", "")
+//                .replaceAll("ि", "")
+//                .replaceAll("ं", "")
+//                .replaceAll("ु", "")
+//                .replaceAll("ू", "")
+//                .replaceAll("ा", "")
+//                .replaceAll("\uE771", "")
+//                .replaceAll("\uE772", "")
+//                .replaceAll("\uE779", "")
+//                .replaceAll("\uE8C0", "")
+//                .replaceAll("\uE8C4", "")
+//                .replaceAll("\uE8CC", "")
+//                .replaceAll("\uE8D8", "")
+//                .replaceAll("\uE988", "")
                 ;
     }
 
