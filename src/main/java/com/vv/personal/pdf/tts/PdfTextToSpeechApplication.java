@@ -45,7 +45,7 @@ public class PdfTextToSpeechApplication {
             LOGGER.error("Failed to obtain ip address. ", e);
         }
         String port = environment.getProperty(LOCAL_SPRING_PORT);
-        LOGGER.info("DBI activation is complete! Exact url: {}", String.format(SWAGGER_UI_URL, host, port));
+        LOGGER.info("PDF-TTS activation is complete! Exact url: {}", String.format(SWAGGER_UI_URL, host, port));
     }
 
 }
