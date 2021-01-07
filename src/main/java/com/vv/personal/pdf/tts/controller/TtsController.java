@@ -230,7 +230,7 @@ public class TtsController {
             case "en":
                 return "\\.";
             case "hi":
-                return "\\।";
+                return "\\।|\\.";
         }
         return "\\r?\\n";
     }
