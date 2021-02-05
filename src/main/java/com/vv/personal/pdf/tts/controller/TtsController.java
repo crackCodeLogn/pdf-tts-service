@@ -52,7 +52,7 @@ public class TtsController {
 
     @GetMapping("/convert/text/speech")
     public Boolean converter(@RequestParam String text,
-                             @RequestParam(defaultValue = "en") String language,
+                             @RequestParam(defaultValue = "hi") String language,
                              @RequestParam(defaultValue = "gender") String gender,
                              @RequestParam(defaultValue = "download") String prefix,
                              @RequestParam(defaultValue = "true") Boolean playAudioOnTheFly,
@@ -119,7 +119,7 @@ public class TtsController {
 
     @GetMapping("/automate/pdf/text/speech")
     public Boolean automatePdfTextToSpeech(@RequestParam String pdfFileLocation,
-                                           @RequestParam(defaultValue = "en") String lng,
+                                           @RequestParam(defaultValue = "hi") String lng,
                                            @RequestParam(defaultValue = "true") Boolean convertAll,
                                            @RequestParam(defaultValue = "0") Integer startLineIndex,
                                            @RequestParam(defaultValue = "10") Integer endLineIndexButNotIncluded,
