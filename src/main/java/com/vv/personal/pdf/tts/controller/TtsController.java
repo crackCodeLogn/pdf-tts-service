@@ -98,7 +98,7 @@ public class TtsController {
 
     @GetMapping("/convert/pdf/text")
     public List<String> extractTextFromPdf(@RequestParam String pdfFileLocation,
-                                           @RequestParam(defaultValue = "en") String lng) {
+                                           @RequestParam(defaultValue = "hi") String lng) {
         File pdf = new File(pdfFileLocation);
         String endingSplit = getSplitRegex(lng);
         try (PDDocument doc = PDDocument.load(pdf)) {
