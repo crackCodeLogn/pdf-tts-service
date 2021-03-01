@@ -7,9 +7,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.event.EventListener;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -149,6 +147,33 @@ public class TtsController {
         if (allDone) LOGGER.info("All {} lines converted to speech successfully in {}s", lastLine - startLineIndex, stopWatch.getTime(TimeUnit.SECONDS));
         else LOGGER.info("Couldn't convert all {} lines successfully in {}s", lastLine - startLineIndex, stopWatch.getTime(TimeUnit.SECONDS));
         return allDone;
+    }
+
+    @GetMapping("/automate-generate/pdf/text/speech")
+    public Boolean automateAndGeneratePdfTextToSpeech(@RequestParam String pdfFileLocation,
+                                                      @RequestParam(defaultValue = "hi") String lng,
+                                                      @RequestParam(defaultValue = "true") Boolean convertAll,
+                                                      @RequestParam(defaultValue = "0") Integer startLineIndex,
+                                                      @RequestParam(defaultValue = "10") Integer endLineIndexButNotIncluded,
+                                                      @RequestParam(defaultValue = "true") Boolean playAudioOnTheFly,
+                                                      @RequestParam(defaultValue = "true") Boolean extractAudio) {
+        File file = new File(pdfFileLocation);
+        String fileName = file.getName().substring(0, file.getName().lastIndexOf(".pdf"));
+        File destFolder = new File(file.getParent() + "/" + fileName);
+        if (destFolder.mkdirs()) {
+            try {
+                Files.move(Path.of(file.getPath()), Path.of(destFolder.getPath() + "/" + file.getName()));
+            } catch (IOException e) {
+                LOGGER.error("Failed to move pdf from {} to {}. ", file.getPath(), destFolder.getPath(), e);
+            }
+
+            if (extractAudio && automatePdfTextToSpeech(pdfFileLocation, lng, convertAll, startLineIndex, endLineIndexButNotIncluded, playAudioOnTheFly, destFolder.getAbsolutePath())) {
+                LOGGER.info("Generation and automation of pdf tts completed at {}", destFolder.getPath());
+                return true;
+            } else if (!extractAudio) return true;
+        }
+        LOGGER.error("Failed to generate and automate pdf tts of {}", pdfFileLocation);
+        return false;
     }
 
     @GetMapping("/automate/audio/readAloud")
