@@ -167,6 +167,7 @@ public class TtsController {
                 LOGGER.info("Moved {} -> {}", pdfFileLocation, destFile);
             } catch (IOException e) {
                 LOGGER.error("Failed to move pdf from {} to {}. ", file.getPath(), destFolder.getPath(), e);
+                return pdfFileLocation;
             }
 
             if (extractAudio && automatePdfTextToSpeech(destFile, lng, convertAll, startLineIndex, endLineIndexButNotIncluded, playAudioOnTheFly, destFolder.getAbsolutePath())) {
