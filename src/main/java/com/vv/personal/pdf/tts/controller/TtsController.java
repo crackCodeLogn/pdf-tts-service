@@ -150,30 +150,30 @@ public class TtsController {
     }
 
     @GetMapping("/automate-generate/pdf/text/speech")
-    public Boolean automateAndGeneratePdfTextToSpeech(@RequestParam String pdfFileLocation,
-                                                      @RequestParam(defaultValue = "hi") String lng,
-                                                      @RequestParam(defaultValue = "true") Boolean convertAll,
-                                                      @RequestParam(defaultValue = "0") Integer startLineIndex,
-                                                      @RequestParam(defaultValue = "10") Integer endLineIndexButNotIncluded,
-                                                      @RequestParam(defaultValue = "true") Boolean playAudioOnTheFly,
-                                                      @RequestParam(defaultValue = "true") Boolean extractAudio) {
+    public String automateAndGeneratePdfTextToSpeech(@RequestParam String pdfFileLocation,
+                                                     @RequestParam(defaultValue = "hi") String lng,
+                                                     @RequestParam(defaultValue = "true") Boolean convertAll,
+                                                     @RequestParam(defaultValue = "0") Integer startLineIndex,
+                                                     @RequestParam(defaultValue = "10") Integer endLineIndexButNotIncluded,
+                                                     @RequestParam(defaultValue = "true") Boolean playAudioOnTheFly,
+                                                     @RequestParam(defaultValue = "true") Boolean extractAudio) {
         File file = new File(pdfFileLocation);
         String fileName = file.getName().substring(0, file.getName().lastIndexOf(".pdf"));
         File destFolder = new File(file.getParent() + "/" + fileName);
         if (destFolder.mkdirs()) {
+            String destFile = destFolder.getPath() + "/" + file.getName();
             try {
-                Files.move(Path.of(file.getPath()), Path.of(destFolder.getPath() + "/" + file.getName()));
+                Files.move(Path.of(file.getPath()), Path.of(destFile));
+                LOGGER.info("Moved {} -> {}", pdfFileLocation, destFile);
             } catch (IOException e) {
                 LOGGER.error("Failed to move pdf from {} to {}. ", file.getPath(), destFolder.getPath(), e);
             }
 
-            if (extractAudio && automatePdfTextToSpeech(pdfFileLocation, lng, convertAll, startLineIndex, endLineIndexButNotIncluded, playAudioOnTheFly, destFolder.getAbsolutePath())) {
+            if (extractAudio && automatePdfTextToSpeech(destFile, lng, convertAll, startLineIndex, endLineIndexButNotIncluded, playAudioOnTheFly, destFolder.getAbsolutePath())) {
                 LOGGER.info("Generation and automation of pdf tts completed at {}", destFolder.getPath());
-                return true;
-            } else if (!extractAudio) return true;
-        }
-        LOGGER.error("Failed to generate and automate pdf tts of {}", pdfFileLocation);
-        return false;
+            } else LOGGER.error("Failed to automate pdf tts of {}", pdfFileLocation);
+        } else LOGGER.error("Failed to generate destination pdf folder for {}", pdfFileLocation);
+        return destFolder.getPath();
     }
 
     @GetMapping("/automate/audio/readAloud")
