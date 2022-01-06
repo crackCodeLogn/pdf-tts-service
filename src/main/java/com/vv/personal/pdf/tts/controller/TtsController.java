@@ -102,7 +102,7 @@ public class TtsController {
         try (PDDocument doc = PDDocument.load(pdf)) {
             LOGGER.info("PDF loaded in program, decoding in progress, total pages: {}", doc.getNumberOfPages());
             List<String> lines = Arrays.stream(new PDFTextStripper().getText(doc)
-                    .split(endingSplit)) //"\\r?\\n"
+                            .split(endingSplit)) //"\\r?\\n"
                     .map(this::cleanLine)
                     .filter(line -> !line.isEmpty() && !line.toLowerCase().contains("copyright"))
                     .collect(Collectors.toList());
@@ -150,13 +150,13 @@ public class TtsController {
     }
 
     @GetMapping("/automate-generate/pdf/text/speech")
-    public String automateAndGeneratePdfTextToSpeech(@RequestParam String pdfFileLocation,
-                                                     @RequestParam(defaultValue = "hi") String lng,
-                                                     @RequestParam(defaultValue = "true") Boolean convertAll,
-                                                     @RequestParam(defaultValue = "0") Integer startLineIndex,
-                                                     @RequestParam(defaultValue = "10") Integer endLineIndexButNotIncluded,
-                                                     @RequestParam(defaultValue = "true") Boolean playAudioOnTheFly,
-                                                     @RequestParam(defaultValue = "true") Boolean extractAudio) {
+    public String automateAndGeneratePdfTextToSpeechAndCollateAudio(@RequestParam String pdfFileLocation,
+                                                                    @RequestParam(defaultValue = "hi") String lng,
+                                                                    @RequestParam(defaultValue = "true") Boolean convertAll,
+                                                                    @RequestParam(defaultValue = "0") Integer startLineIndex,
+                                                                    @RequestParam(defaultValue = "10") Integer endLineIndexButNotIncluded,
+                                                                    @RequestParam(defaultValue = "true") Boolean playAudioOnTheFly,
+                                                                    @RequestParam(defaultValue = "true") Boolean extractAudio) {
         File file = new File(pdfFileLocation);
         String fileName = file.getName().substring(0, file.getName().lastIndexOf(".pdf"));
         File destFolder = new File(file.getParent() + "/" + fileName);
@@ -172,6 +172,11 @@ public class TtsController {
 
             if (extractAudio && automatePdfTextToSpeech(destFile, lng, convertAll, startLineIndex, endLineIndexButNotIncluded, playAudioOnTheFly, destFolder.getAbsolutePath())) {
                 LOGGER.info("Generation and automation of pdf tts completed at {}", destFolder.getPath());
+                try {
+                    collateWholeAudio(destFile.substring(0, destFile.lastIndexOf('/')), true, 0, 0);
+                } catch (IOException e) {
+                    LOGGER.error("Collation of whole audio failed! Error: ", e);
+                }
             } else LOGGER.error("Failed to automate pdf tts of {}", pdfFileLocation);
         } else LOGGER.error("Failed to generate destination pdf folder for {}", pdfFileLocation);
         return destFolder.getPath();
