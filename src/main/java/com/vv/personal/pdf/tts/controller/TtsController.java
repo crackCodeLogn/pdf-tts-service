@@ -51,7 +51,7 @@ public class TtsController {
     @GetMapping("/convert/text/speech")
     public Boolean converter(@RequestParam String text,
                              @RequestParam(defaultValue = "hi") String language,
-                             @RequestParam(defaultValue = "gender") String gender,
+                             @RequestParam(defaultValue = "female") String gender,
                              @RequestParam(defaultValue = "download") String prefix,
                              @RequestParam(defaultValue = "true") Boolean playAudioOnTheFly,
                              @RequestParam(defaultValue = "/tmp") String destinationFolder) {
